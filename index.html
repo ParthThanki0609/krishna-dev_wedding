@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="gu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ક્રિષ્ના & દેવ</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Gujarati:wght@400;600;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #fdf2e9, #f7e7dc, #fbeee6);
+      ;
+      --text: #3c2b2b;
+      --accent: #c9968f;
+      --muted: #8b6c6c;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Noto Serif Gujarati', serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* VIDEO */
+    .intro {
+      height: 100vh;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .intro video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* FLOWERS */
+    .flower {
+      position: fixed;
+      top: -40px;
+      animation: fall linear infinite;
+      z-index: 1;
+      opacity: .6;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+      }
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero .animate {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: 1s ease;
+    }
+
+    .hero .animate.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .names {
+      font-size: clamp(40px, 7vw, 76px);
+    }
+
+    .names span {
+      display: block;
+      color: var(--accent);
+    }
+
+    .tagline {
+      max-width: 460px;
+      margin: 24px auto;
+      line-height: 1.9;
+      color: var(--muted);
+    }
+
+    .couple img {
+      width: 260px;
+      height: 360px;
+      object-fit: cover;
+      border-radius: 140px;
+      margin-top: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, .2);
+    }
+
+    .info {
+      margin-top: 40px;
+    }
+
+    .location {
+      color: var(--accent);
+    }
+
+    /* COUNTDOWN */
+    .countdown-section {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .countdown-card {
+      background: #fff;
+      padding: 25px 35px;
+      border-radius: 25px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, .1);
+      text-align: center;
+      max-width: 550px;
+      width: 100%;
+    }
+
+    .countdown-title {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+
+    .timer {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 15px;
+    }
+
+    .time-box {
+      background: #fff8f3;
+      padding: 15px;
+      border-radius: 15px;
+    }
+
+    .time-box span {
+      display: block;
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .time-box small {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* EVENTS */
+    section {
+      padding: 90px 20px;
+      max-width: 1100px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 30px;
+      color: var(--accent);
+      margin-bottom: 50px;
+    }
+
+    .events {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 30px;
+    }
+
+    .event {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 34px 26px;
+      border-radius: 26px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+      transition: .4s;
+      cursor: pointer;
+    }
+
+    .event:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, .15);
+    }
+
+    .icon {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      background: linear-gradient(135deg, #f4d3cb, #c9968f);
+      color: #fff;
+    }
+
+    .footer {
+      background: #f3e5df;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    /* PAGE TRANSITION */
+    body {
+      opacity: 0;
+      transition: opacity .6s ease-in-out;
+    }
+
+    body.loaded {
+      opacity: 1;
+    }
+
+    body.fade-out {
+      opacity: 0;
+    }
+
+    body {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all .6s ease;
+    }
+
+    body.loaded {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- VIDEO -->
+  <div class="intro" id="videoSection">
+    <video id="introVideo" autoplay muted playsinline>
+      <source src="inteovideo.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- FLOWERS -->
+  <script>
+    const flowers = ["🌸", "🌼", "🌺", "💮"];
+    for (let i = 0; i < 25; i++) {
+      const f = document.createElement("div");
+      f.className = "flower";
+      f.innerText = flowers[Math.floor(Math.random() * flowers.length)];
+      f.style.left = Math.random() * 100 + "vw";
+      f.style.fontSize = 14 + Math.random() * 16 + "px";
+      f.style.animationDuration = 6 + Math.random() * 6 + "s";
+      document.body.appendChild(f);
+    }
+  </script>
+
+  <!-- HERO -->
+  <div class="hero" id="heroSection">
+
+    <div class="names animate">ક્રિષ્ના <span>& દેવ</span></div>
+
+    <p class="tagline animate">
+      મંગલ ભાવ અને શુભ સંકલ્પ સાથે
+      બે આત્માઓના પવિત્ર બંધનની
+      આશીર્વાદસભર શરૂઆત.
+    </p>
+
+    <div class="couple animate">
+      <img src="wedding couples.jpeg" alt="Krishna & Dev">
+    </div>
+
+    <div class="info animate">
+      <div>૩, ૬ અને ૭ મે ૨૦૨૬</div>
+      <div class="location">રાજપૂત સમાજ GTPL હોલ, પોરબંદર</div>
+    </div>
+
+    <!-- COUNTDOWN BELOW DATE -->
+    <div class="countdown-section animate">
+      <div class="countdown-card">
+        <div class="countdown-title">૩ મે ૨૦૨૬ સુધી બાકી સમય</div>
+        <div class="timer">
+          <div class="time-box"><span id="days">0</span><small>દિવસ</small></div>
+          <div class="time-box"><span id="hours">0</span><small>કલાક</small></div>
+          <div class="time-box"><span id="minutes">0</span><small>મિનિટ</small></div>
+          <div class="time-box"><span id="seconds">0</span><small>સેકન્ડ</small></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EVENTS -->
+  <section>
+    <div class="section-title">સ્નેહાધિન કાર્યક્રમો</div>
+    <div class="events">
+
+      <div class="event" onclick="window.location.href='Kutumb_Paksh.html'">
+        <div class="icon">🌸</div>
+        <h3>કુટુંબ પક્ષ</h3>
+        <p>પરિવારજનોની શુભ હાજરી સાથે આનંદમય આરંભ.</p>
+      </div>
+
+      <div class="event" onclick="window.location.href='Mosal_Paksh.html'">
+        <div class="icon">🌼</div>
+        <h3>મોસાળ પક્ષ</h3>
+        <p>સ્નેહ અને સંબંધોથી ભરેલો ઉત્સવ.</p>
+      </div>
+
+      <div class="event" onclick="window.location.href='Mehendi_Haldi.html'">
+        <div class="icon">🌿</div>
+        <h3>મેહંદી & હળદી</h3>
+        <p>રંગ અને સંગીતથી ઉજવાતો દિવસ.</p>
+      </div>
+
+      <div class="event" onclick="window.location.href='Welcome_Ceremony.html'">
+        <div class="icon">🎉</div>
+        <h3>આવકાર સમારોહ</h3>
+        <p>મહેમાનોના હાર્દિક સ્વાગત સાથે.</p>
+      </div>
+
+      <div class="event" onclick="window.location.href='Madhur_Tahuko.html'">
+        <div class="icon">🎶</div>
+        <h3>મધુર ટહુકો</h3>
+        <p>સંગીત અને નૃત્યથી ગુંજતું વાતાવરણ.</p>
+      </div>
+
+      <div class="event" onclick="window.location.href='Well-Wishers.html'">
+        <div class="icon">🙏</div>
+        <h3>શુભેચ્છકો</h3>
+        <p>આપની શુભકામનાઓ અમારે માટે અમૂલ્ય છે.</p>
+      </div>
+
+      <div class="event" onclick="window.location.href='Shubh Sthal.html'">
+        <div class="icon">📍</div>
+        <h3>શુભ સ્થળ</h3>
+        <p>રાજપૂત સમાજ GTPL હોલ</p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="footer">
+    <h2>આપનું હાર્દિક સ્વાગત છે</h2>
+    <p>થાનકી પરિવાર</p>
+  </div>
+
+  <script>
+    const video = document.getElementById("introVideo");
+    const hero = document.getElementById("heroSection");
+
+    video.addEventListener("ended", () => {
+      hero.scrollIntoView({ behavior: "smooth" });
+    });
+
+    /* HERO ANIMATION */
+    const heroElements = document.querySelectorAll('.hero .animate');
+    const heroObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    heroElements.forEach(el => heroObserver.observe(el));
+
+    /* COUNTDOWN */
+    const weddingDate = new Date("May 3, 2026 00:00:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+
+      if (distance < 0) return;
+
+      document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+      document.getElementById("hours").innerText = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      document.getElementById("minutes").innerText = Math.floor((distance / (1000 * 60)) % 60);
+      document.getElementById("seconds").innerText = Math.floor((distance / 1000) % 60);
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    /* PAGE LOAD FADE IN */
+    window.addEventListener("load", () => {
+      document.body.classList.add("loaded");
+    });
+
+    /* PAGE TRANSITION ON LINK CLICK */
+    document.querySelectorAll(".event").forEach(card => {
+      card.addEventListener("click", function (e) {
+        const link = this.getAttribute("onclick").match(/'(.*?)'/)[1];
+
+        e.preventDefault();
+        document.body.classList.remove("loaded");
+        document.body.classList.add("fade-out");
+
+        setTimeout(() => {
+          window.location.href = link;
+        }, 500);
+      });
+    });
+
+    /* BACK BUTTON SMOOTH FIX */
+    window.addEventListener("pageshow", function (event) {
+      if (event.persisted) {
+        document.body.classList.add("loaded");
+      }
+    });
+
+  </script>
+
+</body>
+
+</html>
